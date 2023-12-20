@@ -37,6 +37,22 @@ model Session {
   @@map("sessions")
 }
 
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verificationtokens")
+}
+
+enum UserRole {
+  GUEST
+  STUDENT
+  WORKER
+  ADMIN
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -46,14 +62,70 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
+  role          UserRole
+  points        Int
+
+  activities      Activity[]      @relation("CreatedBy")
+  participations  Participation[] @relation("ParticipationUser")
+
   @@map("users")
 }
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
+model Activity {
+  id            String    @id @default(cuid()) 
+  name          String
+  description   String
+  file          String?
+  defaultPoints Int
+  startDate     DateTime
+  endDate       DateTime
+  createdAt     DateTime  @default(now())
+  isDeleted     Boolean
 
-  @@unique([identifier, token])
-  @@map("verificationtokens")
+  creatorId     String
+  Creator       User      @relation("CreatedBy", fields: [creatorId], references: [id])
+  instituteId   Int
+  Institute     Institute @relation("ActivityInstitute", fields: [instituteId], references: [id])
+  categoryId    Int
+  Category      Category  @relation("ActivityCategory", fields: [categoryId], references: [id])
+
+  participations  Participation[] @relation("ParticipationActivity")
+
+  @@map("activities")
+}
+
+model Institute {
+  id            Int         @id @default(autoincrement()) 
+  name          String
+  activities    Activity[]  @relation("ActivityInstitute")
+
+  @@map("institutes")
+}
+
+model Category {
+  id            Int         @id @default(autoincrement()) 
+  name          String
+  activities    Activity[]  @relation("ActivityCategory")
+
+  @@map("categories")
+}
+
+enum ParticipationStatus {
+  APPLIED
+  ACCEPTED
+  REJECTED
+}
+
+model Participation {
+  id          String    @id @default(cuid())
+  status      ParticipationStatus
+  points      Int
+  isCancelled Boolean 
+
+  studentId   String
+  Student     User      @relation("ParticipationUser", fields: [studentId], references: [id])
+  activityId  String
+  Activity    Activity  @relation("ParticipationActivity", fields: [activityId], references: [id])
+
+  @@map("participations")
 }
