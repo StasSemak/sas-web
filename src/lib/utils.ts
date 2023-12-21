@@ -14,3 +14,16 @@ export function formatPoints(points: number) {
   
   return "балів";
 }
+
+export function dbRoleToString(role: "GUEST" | "STUDENT" | "WORKER" | "ADMIN") {
+  switch(role) {
+    case "GUEST":
+      return "Гість"
+    case "STUDENT":
+      return "Студент"
+    case "WORKER":
+      return "Працівник"
+    case "ADMIN":
+      return "Адміністратор"
+  }
+}

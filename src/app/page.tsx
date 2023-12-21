@@ -1,19 +1,24 @@
-import { getIsRoleChoosed } from "@/server/actions/users"
 import { Dashboard } from "@/components/Dashboard";
 import { NeedVerification } from "@/components/NeedVerification";
 import { getAuthSession } from "@/lib/auth";
+import { db } from "@/lib/db";
 
 export default async function Home() {
   const session = await getAuthSession();
-  const isRoleChoosed = await getIsRoleChoosed(session?.user.id);
+  const dbUser = await db.user.findFirst({
+    where: {
+      id: session?.user.id
+    }
+  })
 
   return (
     <div className="flex flex-col items-center text-zinc-100">
       {session ? 
-        (isRoleChoosed ? 
-          <Dashboard user={session.user}/>
+        (dbUser?.role === "GUEST" ? 
+          <NeedVerification/>
         :
-          <NeedVerification userId={session.user.id}/>)
+          <Dashboard user={session.user}/>
+        )
       : 
         <div>
           Gotta be singed in
@@ -22,4 +27,3 @@ export default async function Home() {
     </div> 
   )
 }
-///useleess comment to fix bug

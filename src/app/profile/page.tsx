@@ -1,10 +1,10 @@
-import { getUserInfo } from "@/server/actions/users"
 import { SignOut } from "@/components/SignOut"
 import { getAuthSession } from "@/lib/auth"
-import { formatPoints } from "@/lib/utils"
+import { dbRoleToString, formatPoints } from "@/lib/utils"
 import { LineChart, Mail, User as UserIcon, UserSquare } from "lucide-react"
 import { User } from "next-auth"
 import Image from "next/image"
+import { db } from "@/lib/db"
 
 const ProfilePage = async () => {
     const session = await getAuthSession()
@@ -55,7 +55,11 @@ const ProfileImage = ({image}: {image: string | null | undefined}) => {
     )
 }
 const UserInfo = async ({userId}: {userId: string | undefined}) => {
-    const info = await getUserInfo(userId);
+    const info = await db.user.findFirst({
+        where: {
+            id: userId
+        }
+    })
 
     return(
         <div className="flex flex-col gap-2 text-blue-950 -mt-1 md:-mt-3">
@@ -63,7 +67,7 @@ const UserInfo = async ({userId}: {userId: string | undefined}) => {
             <>
                 <div className="flex gap-2 items-center">
                     <UserIcon className="h-6 w-6 stroke-blue-950"/>
-                    <p className="text-lg font-medium">{info.role}</p>
+                    <p className="text-lg font-medium">{dbRoleToString(info.role)}</p>
                 </div>
                 <div className="flex gap-2 items-center">
                     <LineChart className="h-6 w-6 stroke-blue-950"/>

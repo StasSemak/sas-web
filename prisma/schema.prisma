@@ -62,8 +62,8 @@ model User {
   accounts      Account[]
   sessions      Session[]
 
-  role          UserRole
-  points        Int
+  role          UserRole  @default(GUEST)
+  points        Int       @default(0)
 
   activities      Activity[]      @relation("CreatedBy")
   participations  Participation[] @relation("ParticipationUser")
@@ -80,7 +80,7 @@ model Activity {
   startDate     DateTime
   endDate       DateTime
   createdAt     DateTime  @default(now())
-  isDeleted     Boolean
+  isDeleted     Boolean   @default(false)
 
   creatorId     String
   Creator       User      @relation("CreatedBy", fields: [creatorId], references: [id])

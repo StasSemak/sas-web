@@ -14,7 +14,7 @@ export const Dashboard = async ({user}: {user: User}) => {
         <div className="w-full flex flex-col gap-8">
             <div className="flex justify-between">
                 <Greeting userName={user.name ?? "користуваче"}/>
-                <CreateLink userId={user.id}/>
+                {/* <CreateLink userId={user.id}/> */}
             </div>
             <ActivitiesFeed/>
             <SearchBar/>
