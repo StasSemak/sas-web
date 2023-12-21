@@ -1,7 +1,7 @@
 import { z } from "zod"
 
-export const ValidationValidator = z.object({
-    status: z.string().regex(/^\d$/, "Це поле є обов'язковим!"),
+export const VerificationValidator = z.object({
+    status: z.enum(["STUDENT", "WORKER"]).nullable(),
 })
 
-export type ValidationPayload = z.infer<typeof ValidationValidator>
+export type VerificationPayload = z.infer<typeof VerificationValidator>

@@ -80,7 +80,7 @@ model Activity {
   startDate     DateTime
   endDate       DateTime
   createdAt     DateTime  @default(now())
-  isDeleted     Boolean
+  isDeleted     Boolean   @default(false)
 
   creatorId     String
   Creator       User      @relation("CreatedBy", fields: [creatorId], references: [id])

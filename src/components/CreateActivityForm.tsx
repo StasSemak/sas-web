@@ -24,12 +24,11 @@ import { useRouter } from "next/navigation";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 
 type Props = {
-    userId: string | undefined;
     categories: Category[];
     institutes: Institute[];
 }
 
-export const CreateActivityForm = ({userId, categories, institutes}: Props) => {
+export const CreateActivityForm = ({categories, institutes}: Props) => {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const router = useRouter()
     const toast = useCustomToast();
@@ -45,7 +44,6 @@ export const CreateActivityForm = ({userId, categories, institutes}: Props) => {
             imageBase64: "",
             categoryId: 0,
             instituteId: 0,
-            creatorId: userId
         },
         mode: "onSubmit",
         shouldUnregister: false,
@@ -54,18 +52,8 @@ export const CreateActivityForm = ({userId, categories, institutes}: Props) => {
     const onSubmit = async (payload: CreateActivityPayload) => {
         setIsLoading(true)
 
-        type UploadPayload = Pick<CreateActivityPayload, "name" | "description" | "startDate" | "endDate" | "categoryId" | "instituteId" | "creatorId"> & {
-            defaultPoints: number;
-            imagesBase64: string[];
-        } 
-        const uploadPayload: UploadPayload = {
-            ...payload,
-            defaultPoints: parseInt(payload.defaultPoints),
-            imagesBase64: [payload.imageBase64]
-        }
-
         try {
-            await axios.post(`${CONSTANTS.SERVER_URL}/api/activities`, uploadPayload)
+            await axios.post(`/api/activities/create`, payload)
             router.push("/")
         }
         catch (err) {

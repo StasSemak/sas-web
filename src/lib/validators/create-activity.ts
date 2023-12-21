@@ -11,7 +11,6 @@ export const CreateActivityValidator = z.object({
         message: "Це поле є обв'язковим!",
     })}),
     imageBase64: z.string(),
-    creatorId: z.string().min(1),
     categoryId: z.number().int().positive({message: "Це поле обов'язкове!"}),
     instituteId: z.number().int().positive({message: "Це поле обов'язкове!"}),
 })
