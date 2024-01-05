@@ -19,7 +19,6 @@ import {
 import { Button } from "./ui/Button";
 import { useState } from "react";
 import axios, { AxiosError } from "axios";
-import { CONSTANTS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 

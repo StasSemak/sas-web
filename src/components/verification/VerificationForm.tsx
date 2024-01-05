@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "./ui/Button";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/Select"
+import { Button } from "../ui/Button";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "../ui/Select"
 import { VerificationPayload } from "@/lib/validators/validation";
 import axios, { AxiosError } from "axios"
 import { useRouter } from "next/navigation";

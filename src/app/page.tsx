@@ -1,7 +1,7 @@
-import { Dashboard } from "@/components/Dashboard";
-import { NeedVerification } from "@/components/NeedVerification";
+import { NeedVerification } from "@/components/verification/NeedVerification";
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getAuthSession();
@@ -11,18 +11,15 @@ export default async function Home() {
     }
   })
 
+  if(!session) redirect("/sign-in")
+
   return (
     <div className="flex flex-col items-center text-zinc-100">
-      {session ? 
-        (dbUser?.role === "GUEST" ? 
+      {
+        dbUser?.role === "GUEST" ? 
           <NeedVerification/>
         :
-          <Dashboard user={session.user}/>
-        )
-      : 
-        <div>
-          Gotta be singed in
-        </div>
+          <div></div>
       }
     </div> 
   )
