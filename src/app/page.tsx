@@ -5,13 +5,13 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await getAuthSession();
+  if(!session?.user) redirect("/sign-in")
+
   const dbUser = await db.user.findFirst({
     where: {
       id: session?.user.id
     }
   })
-
-  if(!session?.user) redirect("/sign-in")
 
   if(dbUser && dbUser.role !== "GUEST") redirect("/app")
 
