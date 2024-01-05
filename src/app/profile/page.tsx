@@ -5,9 +5,12 @@ import { LineChart, Mail, User as UserIcon, UserSquare } from "lucide-react"
 import { User } from "next-auth"
 import Image from "next/image"
 import { db } from "@/lib/db"
+import { redirect } from "next/navigation"
 
 const ProfilePage = async () => {
     const session = await getAuthSession()
+
+    if(!session?.user) redirect("/sign-in")
 
     return(
         <div className="w-full flex flex-col gap-12">

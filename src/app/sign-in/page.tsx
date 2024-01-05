@@ -1,8 +1,13 @@
 import { SignIn } from "@/components/SignIn"
 import logo from "../../../public/img/logo_blue.png" 
 import Image from "next/image"
+import { getAuthSession } from "@/lib/auth"
+import { redirect } from "next/navigation"
 
 const SignInPage = async () => {
+    const session = await getAuthSession();
+    if(session?.user) redirect("/app")
+
     return(
         <div className="w-full h-[calc(100vh-216px)] flex flex-col justify-center items-center bg-blue-950">
             <div className="max-w-[600px] flex flex-col mx-2 gap-6 items-center bg-zinc-100 p-12 rounded-2xl">
