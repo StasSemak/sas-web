@@ -11,16 +11,13 @@ export default async function Home() {
     }
   })
 
-  if(!session) redirect("/sign-in")
+  if(!session?.user) redirect("/sign-in")
+
+  if(dbUser && dbUser.role !== "GUEST") redirect("/app")
 
   return (
     <div className="flex flex-col items-center text-zinc-100">
-      {
-        dbUser?.role === "GUEST" ? 
-          <NeedVerification/>
-        :
-          <div></div>
-      }
+      <NeedVerification/>
     </div> 
   )
 }
