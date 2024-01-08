@@ -6,6 +6,9 @@ import { buttonVariants } from "./ui/Button"
 import { UserAvatar } from "./UserAvatar"
 import { getAuthSession } from "@/lib/auth"
 import { BetaLabel } from "./BetaLabel"
+import { Session } from "next-auth"
+import { db } from "@/lib/db"
+import { Suspense } from "react"
 
 export const Header = async () => {
     const session = await getAuthSession();
@@ -30,16 +33,45 @@ export const Header = async () => {
                     </Link>
                     <BetaLabel/>
                 </div>
-                <div>
-                    {session ? 
-                        <UserAvatar userImage={session.user.image}/>
-                    : 
-                    <Link href="/sign-in" className={buttonVariants({variant: "light"})}>
-                        Увійти
-                    </Link>
-                    }   
+                <div className="flex h-full items-center gap-8">
+                    <CreateLink session={session}/>
+                    <ProfileLink session={session}/>
                 </div>
             </nav>
         </header>
+    )
+}
+
+const ProfileLink = ({session}: {session: Session | null}) => {
+    if(session) return <UserAvatar userImage={session.user.image}/>
+
+    return(
+        <Link href="/sign-in" className={buttonVariants({variant: "light"})}>
+            Увійти
+        </Link>
+    )
+}
+
+const CreateLink = async ({session}: {session: Session | null}) => {
+    if(!session) return null;
+
+    const dbUser = await db.user.findFirst({
+        where: {
+            id: session.user.id
+        }
+    })
+
+
+    if(dbUser?.role === "GUEST") return null;
+    if(dbUser?.role === "STUDENT") return(
+        <Link href="/create/participation" className={buttonVariants({variant: "light"})}>
+            Створити участь
+        </Link>
+    )
+    
+    return(
+        <Link href="/create/activity" className={buttonVariants({variant: "light"})}>
+            Створити подію
+        </Link>
     )
 }
