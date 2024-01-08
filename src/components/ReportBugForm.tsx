@@ -65,16 +65,3 @@ export const ReportBugForm = (user: Pick<User, "name" | "email">) => {
         </form>
     )
 }
-
-//temp
-const ReportBug = (props: Pick<User, "name" | "email">) => {
-    return(
-        <div className="flex flex-col gap-3">
-            <h2 className="text-zinc-100 text-2xl font-medium">Натрапили на несправність?</h2>
-            <p className="text-zinc-200">
-                Додаток все ще на стадії розробки, тому можливі певні обмеження або несправності. Якщо у вас виникла проблема, повідомте про це нижче. Це сприятиме швидшому виправленню помилок. 
-            </p>
-            <ReportBugForm {...props}/>
-        </div>
-    )
-}

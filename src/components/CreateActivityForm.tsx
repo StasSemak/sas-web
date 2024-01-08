@@ -5,7 +5,6 @@ import { FieldError, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CreateActivityPayload, CreateActivityValidator } from "@/lib/validators/create-activity";
 import { Input } from "./ui/Input";
-import { Label } from "./ui/label";
 import ReactTextareaAutosize from "react-textarea-autosize";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "./ui/Select";
 import { DatePicker } from "./ui/DatePicker";
@@ -21,6 +20,7 @@ import { useState } from "react";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useCustomToast } from "@/hooks/use-custom-toast";
+import { Label } from "./ui/label";
 
 type Props = {
     categories: Category[];

@@ -15,7 +15,7 @@ const AppLayout = async ({children}: {children: React.ReactNode}) => {
     if (dbUser?.role === "GUEST") redirect("/")
 
     return(
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5 min-h-screen">
             <Navbar />
             {children}
         </div>

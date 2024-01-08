@@ -8,7 +8,6 @@ import { getAuthSession } from "@/lib/auth"
 import { BetaLabel } from "./BetaLabel"
 import { Session } from "next-auth"
 import { db } from "@/lib/db"
-import { Suspense } from "react"
 
 export const Header = async () => {
     const session = await getAuthSession();
@@ -61,14 +60,12 @@ const CreateLink = async ({session}: {session: Session | null}) => {
         }
     })
 
-
     if(dbUser?.role === "GUEST") return null;
     if(dbUser?.role === "STUDENT") return(
         <Link href="/create/participation" className={buttonVariants({variant: "light"})}>
             Створити участь
         </Link>
     )
-    
     return(
         <Link href="/create/activity" className={buttonVariants({variant: "light"})}>
             Створити подію
