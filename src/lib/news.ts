@@ -13,7 +13,7 @@ const readMDXFile = async (filePath: string) => {
 
 const getMDXData = async (dir: string) => {
     const mdxFiles = await getMDXFiles(dir);
-    return mdxFiles.map(async (file) => {
+    const result = await Promise.all(mdxFiles.map(async (file) => {
         const { data, content } = await readMDXFile(path.join(dir, file));
         const slug = path.basename(file, path.extname(file))
 
@@ -22,7 +22,9 @@ const getMDXData = async (dir: string) => {
             slug,
             content,
         }
-    })
+    }))
+
+    return result
 }
 
 export const getNewsPosts = async (count?: number) => {
