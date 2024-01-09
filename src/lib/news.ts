@@ -3,7 +3,7 @@ import path from "path"
 import matter from "gray-matter"
 
 const getMDXFiles = async (dir: string) => {
-    return (await fs.readdir(dir)).filter((file) => path.extname(file) === ".mdx");
+    return (await fs.readdir(dir)).filter((file) => path.extname(file) === ".mdx").reverse();
 }
 
 const readMDXFile = async (filePath: string) => {
