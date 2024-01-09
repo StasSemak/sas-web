@@ -28,8 +28,7 @@ const getMDXData = async (dir: string) => {
 export const getNewsPosts = async (count?: number) => {
     const posts = await getMDXData(path.join(process.cwd(), "src", "content", "news"))
 
-    if(!count) return posts;
+    if(!count || count > posts.length) return posts;
 
-    if(count > posts.length) count = posts.length 
     return posts.slice(0, count);
 }
